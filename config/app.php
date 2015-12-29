@@ -143,6 +143,7 @@ return [
         'App\Providers\AppServiceProvider',
         'App\Providers\EventServiceProvider',
         'App\Providers\RouteServiceProvider',
+        Vinkla\Pusher\PusherServiceProvider::class,
 
     ],
 

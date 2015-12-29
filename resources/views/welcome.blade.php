@@ -44,5 +44,29 @@
                 <div class="quote">{{ Inspiring::quote() }}</div>
             </div>
         </div>
+        
+        <script src="//js.pusher.com/3.0/pusher.min.js"></script>
+        <script>
+            Pusher.log = function(msg) {
+                console.log(msg);
+              };
+
+            var pusher = new Pusher("{{env("PUSHER_KEY")}}")
+            var channel = pusher.subscribe('test-channel');
+            channel.bind('test-event', function(data) {
+              alert(data.text);
+            });
+            channel.bind('App\\Events\\TestEvent', function(data) {
+              alert('App\Events\TestEvent ' + data.text);
+            });
+            channel.bind('App\\Events\\UserWasBanned', function(data) {
+               console.log(data);
+               alert(JSON.stringify(data));
+               //alert(data.user.name);
+            });
+        </script>
+
+
+
     </body>
 </html>

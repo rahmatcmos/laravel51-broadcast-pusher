@@ -11,6 +11,10 @@
 |
 */
 
+use App\Events\TestEvent;
+use App\Events\UserWasBanned;
+use App\User;
+use Illuminate\Support\Facades\App;
 
 Route::get('/', function () {
     return view('index');
@@ -19,3 +23,26 @@ Route::get('/', function () {
 Route::resource('items', 'ItemController',
     ['except' => ['create', 'edit']]);
 
+get('/userbanned', function () {
+    $user = new User();
+    $user->name = "Tom";
+
+    event(new UserWasBanned($user));
+
+});
+
+get('/broadcast', function() {
+    event(new TestEvent('Broadcasting in Laravel using Pusher!'));
+
+    return view('welcome');
+});
+
+get('/bridge', function() {
+    $pusher = App::make('pusher');
+
+    $pusher->trigger( 'test-channel',
+                      'test-event', 
+                      array('text' => 'Preparing the Pusher Laracon.eu workshop!'));
+
+    return view('welcome');
+});
